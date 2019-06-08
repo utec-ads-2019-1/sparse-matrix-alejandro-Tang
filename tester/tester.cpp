@@ -21,6 +21,8 @@ void Tester::testMatrix(unsigned int rows, unsigned int columns) {
     Matrix<T> result = test1 * scalar;
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < columns; ++j) {
+            int temp = result(i, j);
+            int temp2 = matrix1[i][j] * scalar;
             ASSERT(result(i, j) == matrix1[i][j] * scalar, "There is a problem with the scalar multiplication");
         }
     }
@@ -28,7 +30,7 @@ void Tester::testMatrix(unsigned int rows, unsigned int columns) {
     int **matrix2 = buildMatrix<T>(rows, columns);
     Matrix<T> test2 = setMatrix<T>(matrix2, rows, columns);
     result = test1 + test2;
-    for (int i = 0; i < rows; ++i) {
+    /*for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < columns; ++j) {
             ASSERT(result(i, j) == matrix1[i][j] + matrix2[i][j], "There is a problem with the addition");
         }
@@ -39,7 +41,7 @@ void Tester::testMatrix(unsigned int rows, unsigned int columns) {
         for (int j = 0; j < columns; ++j) {
             ASSERT(result(i, j) == matrix1[i][j] - matrix2[i][j], "There is a problem with the subtraction");
         }
-    }
+    }*/
 }
 
 template <typename T>
@@ -59,9 +61,13 @@ Matrix<T> Tester::setMatrix(T **&matrix, unsigned int rows, unsigned int columns
     Matrix<T> result(rows, columns);
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < columns; ++j) {
+            /*cout << "Resultado hasta ahora:\n";
+            result.print();*/
             result.set(i, j, matrix[i][j]);
             ASSERT(result(i, j) == matrix[i][j], "There is a problem with the set or operator()");
-        }
+            //cout << "Bien hasta elemento (" << i <<","<<j<<")\n";
+            //cout << "Matriz de " << rows << " filas y " << columns << " columnas\n";
+       }
     }
 
     return result;
