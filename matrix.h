@@ -104,13 +104,11 @@ public:
 
         for(int r = 0; r < rowNum; r++){
             auto newRow = new Node<T>();
-            //Node<T> ** newRow = nullptr;
             rows.push_back(newRow);
         }
 
         for(int c = 0; c < columnNum; c++){
             auto newColumn = new Node<T>();
-            //Node<T> newColumn = nullptr;
             columns.push_back(newColumn);
         }
     };
@@ -125,10 +123,8 @@ public:
 
     void set(unsigned posy, unsigned posx, T value){
         if(value == EMPTY){
-            //cout << "empty value" << endl;
             removeNode(posy, posx);
         }else{
-            //cout << "valid value" << endl;
             addNode(posy, posx, value);
         }
     };
@@ -169,6 +165,8 @@ public:
     Matrix<T> operator+(Matrix<T> other){
         if(this->columnNum != other.getColumnNum() and this->rowNum != other.getRowNum()) throw("Estas matrices no se pueden sumar.");
         Matrix<T> newMatrix(rowNum, columnNum);
+        auto otherAddress = &other;
+        auto matrixAddress = &newMatrix;
         for(int c = 0; c < columnNum; c++){
             for(int r = 0; r < rowNum; r++){
                 newMatrix.set(r, c, (*this)(r, c) + other(r,c));
@@ -219,13 +217,14 @@ public:
     };
 
     ~Matrix(){
-        for(int r = 0; r < this->rowNum; r++){
+        /*for(int r = 0; r < this->rowNum; r++){
             rows[r]->chainKill();
-        }
+            delete rows[r];
+        }*/
         rows.clear();
-        for(int c = 0; c < this->columnNum; c++){
+        /*for(int c = 0; c < this->columnNum; c++){
             delete columns[c];
-        }
+        }*/
         columns.clear();
     };
 };
