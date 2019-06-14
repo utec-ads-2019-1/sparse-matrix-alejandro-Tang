@@ -113,11 +113,11 @@ public:
         }
     };
 
-    unsigned getRowNum(){
+    unsigned getRowNum() const{
         return rowNum;
     }
 
-    unsigned getColumnNum(){
+    unsigned getColumnNum() const{
         return columnNum;
     }
 
@@ -162,8 +162,31 @@ public:
         return newMatrix;
     };
 
-    Matrix<T> operator+(Matrix<T> other){
-        if(this->columnNum != other.getColumnNum() and this->rowNum != other.getRowNum()) throw("Estas matrices no se pueden sumar.");
+    void operator=(Matrix<T> other) {
+        this->rowNum = other.getRowNum();
+        this->columnNum = other.getColumnNum();
+        this->rows.clear();
+        this->columns.clear();
+
+        for(int r = 0; r < rowNum; r++){
+            auto newRow = new Node<T>();
+            rows.push_back(newRow);
+        }
+
+        for(int c = 0; c < columnNum; c++){
+            auto newColumn = new Node<T>();
+            columns.push_back(newColumn);
+        }
+
+        for(int r = 0; r < rowNum; r++){
+            for(int c = 0; c <columnNum; c++){
+                this->set(r, c, other(r, c));
+            }
+        }
+    }
+
+    Matrix<T> operator+(Matrix<T>& other){
+        if(this->columnNum != other.getColumnNum() or this->rowNum != other.getRowNum()) throw("Estas matrices no se pueden sumar.");
         Matrix<T> newMatrix(rowNum, columnNum);
         auto otherAddress = &other;
         auto matrixAddress = &newMatrix;
@@ -175,8 +198,8 @@ public:
         return newMatrix;
     };
 
-    Matrix<T> operator-(Matrix<T> other){
-        if(this->columnNum != other.getColumnNum() and this->rowNum != other.getRowNum()) throw("Estas matrices no se pueden restar.");
+    Matrix<T> operator-(Matrix<T> &other){
+        if(this->columnNum != other.getColumnNum() or this->rowNum != other.getRowNum()) throw("Estas matrices no se pueden restar.");
         Matrix<T> newMatrix(rowNum, columnNum);
         for(int c = 0; c < columnNum; c++){
             for(int r = 0; r < rowNum; r++){
@@ -217,14 +240,14 @@ public:
     };
 
     ~Matrix(){
-        /*for(int r = 0; r < this->rowNum; r++){
+        for(int r = 0; r < this->rowNum; r++){
             rows[r]->chainKill();
-            delete rows[r];
-        }*/
+            //delete rows[r];
+        }
         rows.clear();
-        /*for(int c = 0; c < this->columnNum; c++){
+        for(int c = 0; c < this->columnNum; c++){
             delete columns[c];
-        }*/
+        }
         columns.clear();
     };
 };
