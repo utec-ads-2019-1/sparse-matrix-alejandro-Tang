@@ -21,8 +21,6 @@ void Tester::testMatrix(unsigned int rows, unsigned int columns) {
     Matrix<T> result = test1 * scalar;
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < columns; ++j) {
-            //int temp = result(i, j);
-            //int temp2 = matrix1[i][j] * scalar;
             ASSERT(result(i, j) == matrix1[i][j] * scalar, "There is a problem with the scalar multiplication");
         }
     }
